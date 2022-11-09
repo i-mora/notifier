@@ -25,7 +25,8 @@ jobs:
       uses: 'google-github-actions/auth@v1'
       with:
         token_format: 'access_token'
-        credentials_json: ${{ secrets.GMAIL_CREDENTIALS_JSON }}
+        credentials_json: ${{ secrets.CREDENTIALS_JSON }}
+        create_credentials_file: true
 
     - name: Run
       env:
@@ -34,6 +35,5 @@ jobs:
 
         MAIL_TEMPLATE: ${{ secrets.MAIL_TEMPLATE }}
         
-        GMAIL_TOKEN: ${{steps.auth.outputs.access_token}}
-        GMAIL_CREDENTIALS_JSON: ${{ secrets.GMAIL_CREDENTIALS_JSON }}
+        GMAIL_CREDENTIALS_JSON: $GITHUB_WORKSPACE/credentials.json
       run: go run main.go
