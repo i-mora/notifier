@@ -12,13 +12,6 @@ jobs:
 
   run:
     runs-on: ubuntu-latest
-
-    env:
-      SITE_URL: ${{ secrets.SITE_URL }}
-      SITE_RESPONSE_EXPECTED: ${{ secrets.SITE_RESPONSE_EXPECTED }}
-
-      MAIL_TEMPLATE: ${{ secrets.MAIL_TEMPLATE }}
-
     steps:
     - uses: actions/checkout@v3
 
@@ -29,12 +22,18 @@ jobs:
 
     - id: 'auth'
       name: 'Authenticate to Google Cloud'
-      uses: 'google-github-actions/auth@v1.0.0'
+      uses: 'google-github-actions/auth@v1'
       with:
         token_format: 'access_token'
         credentials_json: ${{ secrets.GMAIL_CREDENTIALS_JSON }}
 
     - name: Run
       env:
+        SITE_URL: ${{ secrets.SITE_URL }}
+        SITE_RESPONSE_EXPECTED: ${{ secrets.SITE_RESPONSE_EXPECTED }}
+
+        MAIL_TEMPLATE: ${{ secrets.MAIL_TEMPLATE }}
+        
         GMAIL_TOKEN: ${{steps.auth.outputs.access_token}}
+        GMAIL_CREDENTIALS_JSON: ${{ secrets.GMAIL_CREDENTIALS_JSON }}
       run: go run main.go
