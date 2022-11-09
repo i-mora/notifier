@@ -35,5 +35,5 @@ jobs:
 
         MAIL_TEMPLATE: ${{ secrets.MAIL_TEMPLATE }}
         
-        GMAIL_CREDENTIALS_JSON: $GITHUB_WORKSPACE/credentials.json
+        GMAIL_CREDENTIALS_JSON: ${{ steps.auth.outputs.credentials_file_path }}
       run: go run main.go
