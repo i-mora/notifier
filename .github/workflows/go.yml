@@ -19,8 +19,6 @@ jobs:
 
       MAIL_TEMPLATE: ${{ secrets.MAIL_TEMPLATE }}
 
-      GMAIL_CREDENTIALS_JSON: ${{ secrets.GMAIL_CREDENTIALS_JSON }}
-
     steps:
     - uses: actions/checkout@v3
 
@@ -29,5 +27,14 @@ jobs:
       with:
         go-version: 1.18
 
+    - id: 'auth'
+      name: 'Authenticate to Google Cloud'
+      uses: 'google-github-actions/auth@v0.4.0'
+      with:
+        token_format: 'access_token'
+        credentials_json: $${{ secrets.GMAIL_CREDENTIALS_JSON }}
+
     - name: Run
+      env:
+        GMAIL_TOKEN: ${{steps.auth.outputs.access_token}}
       run: go run main.go
