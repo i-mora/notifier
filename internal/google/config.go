@@ -8,22 +8,28 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/spf13/viper"
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/gmail/v1"
 	"google.golang.org/api/option"
 )
 
+const (
+	viperGmailCredentialsJSON = "gmail.credentials.json"
+)
+
+func init() {
+	viper.BindEnv(viperGmailCredentialsJSON, "GMAIL_CREDENTIALS_JSON")
+}
+
 func NewService() *gmail.Service {
 	ctx := context.Background()
 
-	b, err := os.ReadFile("credentials.json")
-	if err != nil {
-		log.Fatalf("Unable to read client secret file: %v", err)
-	}
+	credentials := viper.GetString(viperGmailCredentialsJSON)
 
 	// If modifying these scopes, delete your previously saved token.json.
-	config, err := google.ConfigFromJSON(b, gmail.GmailReadonlyScope)
+	config, err := google.ConfigFromJSON([]byte(credentials), gmail.GmailSendScope)
 	if err != nil {
 		log.Fatalf("Unable to parse client secret file to config: %v", err)
 	}
