@@ -35,5 +35,6 @@ jobs:
 
         MAIL_TEMPLATE: ${{ secrets.MAIL_TEMPLATE }}
         
-        GMAIL_CREDENTIALS_JSON: ${{ steps.auth.outputs.credentials_file_path }}
+        GMAIL_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
+        GMAIL_CREDENTIALS_JSON:  ${{ steps.auth.outputs.credentials_file_path }}
       run: go run main.go
