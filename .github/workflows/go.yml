@@ -13,11 +13,6 @@ jobs:
   run:
     runs-on: ubuntu-latest
     
-    # Add "id-token" with the intended permissions.
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-    
     steps:
     - uses: actions/checkout@v3
 
@@ -26,17 +21,16 @@ jobs:
       with:
         go-version: 1.18
 
-    - id: 'auth'
-      name: 'Authenticate to Google Cloud'
-      uses: 'google-github-actions/auth@v1'
-      with:
-        workload_identity_provider: 'projects/988811459859/locations/global/workloadIdentityPools/id-pool-notifier/providers/id-pool-provider-notifier'
-        service_account: 'svc-acc-notifier@notifier-368303.iam.gserviceaccount.com'
-
     - name: Run
       env:
         SITE_URL: ${{ secrets.SITE_URL }}
         SITE_RESPONSE_EXPECTED: ${{ secrets.SITE_RESPONSE_EXPECTED }}
 
         MAIL_TEMPLATE: ${{ secrets.MAIL_TEMPLATE }}
+
+        FACEBOOK_API_BASE: https://graph.facebook.com/
+        FACEBOOK_API_VERSION: v15.0
+        FACEBOOK_API_PAGE_ID: ${{ secrets.FACEBOOK_API_PAGE_ID }}
+        FACEBOOK_API_ACCESS_TOKEN: ${{ secrets.FACEBOOK_API_ACCESS_TOKEN }}
+        FACEBOOK_API_PSIDS: ${{ secrets.FACEBOOK_API_PSIDS }}
       run: go run main.go
