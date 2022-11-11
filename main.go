@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"io"
 	"net/http"
 	"net/url"
@@ -24,6 +25,7 @@ func init() {
 }
 
 func main() {
+	ctx := context.Background()
 	//
 	rawURL := viper.GetString(viperSiteURL)
 
@@ -55,7 +57,7 @@ func main() {
 	//
 	template := viper.GetString(viperMailTemplate)
 
-	_, err = gmail.SendMail(template)
+	_, err = gmail.SendMail(ctx, template)
 	if err != nil {
 		panic(err)
 	}

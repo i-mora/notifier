@@ -24,9 +24,8 @@ jobs:
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1'
       with:
-        token_format: 'access_token'
-        credentials_json: ${{ secrets.CREDENTIALS_JSON }}
-        create_credentials_file: true
+        workload_identity_provider: 'projects/988811459859/locations/global/workloadIdentityPools/id-pool-notifier/providers/id-pool-provider-notifier'
+        service_account: 'svc-acc-notifier@notifier-368303.iam.gserviceaccount.com'
 
     - name: Run
       env:
@@ -34,7 +33,4 @@ jobs:
         SITE_RESPONSE_EXPECTED: ${{ secrets.SITE_RESPONSE_EXPECTED }}
 
         MAIL_TEMPLATE: ${{ secrets.MAIL_TEMPLATE }}
-        
-        GMAIL_ACCESS_TOKEN: ${{ steps.auth.outputs.access_token }}
-        GMAIL_CREDENTIALS_JSON:  ${{ steps.auth.outputs.credentials_file_path }}
       run: go run main.go
