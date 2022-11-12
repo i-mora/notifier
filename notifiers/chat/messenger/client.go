@@ -73,7 +73,8 @@ func (c Client) sendMessage(ctx context.Context, message string, psid string) er
 		"recipient": map[string]string{
 			"id": psid,
 		},
-		"messaging_type": "UPDATE",
+		"messaging_type": "MESSAGE_TAG",
+		"tag":            "ACCOUNT_UPDATE",
 		"message": map[string]string{
 			"text": message,
 		},
