@@ -61,10 +61,10 @@ func main() {
 
 	//
 	if expected == gotten {
-		err = client.SendBulkMessages(ctx, "❌ AUN NO TIENEN HABITACIONES DISPONIBLES")
-		if err != nil {
-			log.Fatal(err)
-		}
+		// err = client.SendBulkMessages(ctx, "❌ AUN NO TIENEN HABITACIONES DISPONIBLES")
+		// if err != nil {
+		// 	log.Fatal(err)
+		// }
 		log.Println("Messages ❌ sent successfully")
 		return
 	}
