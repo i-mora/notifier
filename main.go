@@ -1,11 +1,15 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	// "fmt"
 	"io"
 	"log"
 	"net/http"
+	// "net/http/httputil"
 	"net/url"
+	// "reflect"
 
 	"github.com/i-mora/notifier/notifiers/chat/messenger"
 	"github.com/spf13/viper"
@@ -39,10 +43,19 @@ func main() {
 		panic(err)
 	}
 
-	request, err := http.NewRequestWithContext(ctx, http.MethodGet, url.String(), nil)
+  reader := bytes.NewReader([]byte(`{"codigoPelicula":"spider-man-a-traves-del-spider-verso","codigoCiudad":"aguascalientes","tipos":"41783,41784,41785,41786,41787,41788,41789,41790,41799,41866,41867,41868,41869,41870,41875,41876,41877,41878,41881,41882"}`))
+	request, err := http.NewRequestWithContext(ctx, http.MethodPost, url.String(), reader)
 	if err != nil {
 		panic(err)
 	}
+
+  request.Header.Set("Content-Type", "application/json")
+
+  // dumped, err := httputil.DumpRequest(request, true)
+  // if err != nil {
+    // panic(err)
+  // }
+  // fmt.Println(string(dumped))
 
 	response, err := http.DefaultClient.Do(request)
 	if err != nil {
@@ -59,6 +72,7 @@ func main() {
 	gotten := string(bts)
 	client := messenger.NewClient()
 
+  // fmt.Println(reflect.DeepEqual(expected, gotten))
 	//
 	if expected == gotten {
 		// err = client.SendBulkMessages(ctx, "❌ AUN NO TIENEN HABITACIONES DISPONIBLES")
@@ -70,11 +84,11 @@ func main() {
 	}
 
 	//
-	err = client.SendBulkMessages(ctx, "✅ YA HAY HABITACIONES DISPONIBLES!!!")
+	err = client.SendBulkMessages(ctx, "✅ YA HAY BOLETOS EN EL VIP!!!")
 	if err != nil {
 		log.Fatal(err)
 	}
-	err = client.SendBulkMessages(ctx, "https://direct-book.com/properties/AntarisCintermexDirect?locale=en&_gads_gcid=731761819&_gads_gclabel=4ZV2CPGWq7MBEJuZ99wC&_gha_gcid=100233201&_gha_phid=b9f2abdd-644f-46f1-bb1a-3d21ec66ed86&_src=DemandPlus&booking_source=organic&campaign_id=&checkInDate=2023-03-31&checkOutDate=2023-03-03&country=MX&currency=MXN&device=desktop&meta=Google&room_rate=&utm_source=GoogleHotelAds&items[0][adults]=2&items[0][children]=0&items[0][infants]=0&trackPage=no")
+	err = client.SendBulkMessages(ctx, "https://cinepolis.com/preventas")
 	if err != nil {
 		log.Fatal(err)
 	}
