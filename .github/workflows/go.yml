@@ -18,7 +18,7 @@ jobs:
     - name: Checkout + decrypt large secret
       run: |
         ./decrypt_secret.sh
-        LONG_SITE_RESPONSE_EXPECTED=$(cat $HOME/secrets/my_secrets.json)
+        LONG_SITE_RESPONSE_EXPECTED=$(cat $HOME/secrets/my_secret.json)
         echo "SITE_RESPONSE_EXPECTED=$LONG_SITE_RESPONSE_EXPECTED" >> $GITHUB_ENV
       env:
         LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
