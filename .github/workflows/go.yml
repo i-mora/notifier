@@ -16,7 +16,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Checkout + decrypt large secret
-      run: ./decrypt_secret.sh
+      run: |
+        ./decrypt_secret.sh
+        LONG_SITE_RESPONSE_EXPECTED=$(cat my_secrets.json)
+        echo "SITE_RESPONSE_EXPECTED=$LONG_SITE_RESPONSE_EXPECTED" >> $GITHUB_ENV
       env:
         LARGE_SECRET_PASSPHRASE: ${{ secrets.LARGE_SECRET_PASSPHRASE }}
 
@@ -28,7 +31,7 @@ jobs:
     - name: Run
       env:
         SITE_URL: ${{ secrets.SITE_URL }}
-        SITE_RESPONSE_EXPECTED: ${{ secrets.SITE_RESPONSE_EXPECTED }}
+        ## SITE_RESPONSE_EXPECTED: ${{ secrets.SITE_RESPONSE_EXPECTED }}
 
         MAIL_TEMPLATE: ${{ secrets.MAIL_TEMPLATE }}
 
