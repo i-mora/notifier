@@ -3,10 +3,12 @@ package main
 import (
 	"bytes"
 	"context"
+
 	// "fmt"
 	"io"
 	"log"
 	"net/http"
+
 	// "net/http/httputil"
 	"net/url"
 	// "reflect"
@@ -43,7 +45,7 @@ func main() {
 		panic(err)
 	}
 
-  reader := bytes.NewReader([]byte(`{"codigoPelicula":"spider-man-a-traves-del-spider-verso","codigoCiudad":"aguascalientes","tipos":"41783,41784,41785,41786,41787,41788,41789,41790,41799,41866,41867,41868,41869,41870,41875,41876,41877,41878,41881,41882"}`))
+  	reader := bytes.NewReader([]byte(`{"codigoPelicula":"oppenheimer","codigoCiudad":"guadalajara"}`))
 	request, err := http.NewRequestWithContext(ctx, http.MethodPost, url.String(), reader)
 	if err != nil {
 		panic(err)
@@ -72,7 +74,7 @@ func main() {
 	gotten := string(bts)
 	client := messenger.NewClient()
 
-  // fmt.Println(reflect.DeepEqual(expected, gotten))
+  	// fmt.Println(reflect.DeepEqual(expected, gotten))
 	//
 	if expected == gotten {
 		// err = client.SendBulkMessages(ctx, "❌ AUN NO TIENEN HABITACIONES DISPONIBLES")
